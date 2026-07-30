@@ -31,6 +31,7 @@
     font-family: 'Cormorant Garamond', serif;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    transition: background-color 1.5s ease;
   }
 
   /* Canvas Ambient Particle Background */
@@ -48,16 +49,17 @@
     position: fixed;
     top: 20px; right: 20px;
     z-index: 100;
-    background: rgba(30, 15, 45, 0.7);
-    border: 1px solid var(--purple-light);
-    color: var(--purple-light);
-    padding: 8px 16px;
+    background: rgba(30, 15, 45, 0.75);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 10px 18px;
     border-radius: 20px;
     font-size: 13px;
     letter-spacing: 1px;
     cursor: pointer;
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(8px);
     transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(230, 197, 117, 0.2);
   }
   .audio-btn:hover { background: var(--purple-main); color: #fff; }
 
@@ -75,12 +77,9 @@
   }
 
   /* SCENE 1: Garden Intro */
-  .scene-intro {
-    opacity: 1;
-  }
   .intro-title {
     font-family: 'Cinzel', serif;
-    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-size: clamp(1.6rem, 5vw, 2.5rem);
     color: var(--gold);
     letter-spacing: 4px;
     text-transform: uppercase;
@@ -102,12 +101,10 @@
   @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);} }
 
   /* SCENE 2: The Interactive Envelope */
-  .scene-envelope {
-    perspective: 1000px;
-  }
+  .scene-envelope { perspective: 1000px; }
   .envelope-container {
     position: relative;
-    width: min(85vw, 320px);
+    width: min(85vw, 340px);
     aspect-ratio: 3/2;
     cursor: pointer;
     transform-style: preserve-3d;
@@ -130,7 +127,7 @@
   .env-seal {
     position: absolute; left: 50%; top: 45%;
     transform: translate(-50%, -50%);
-    width: 52px; height: 52px;
+    width: 54px; height: 54px;
     background: radial-gradient(circle, #7a3b6e, #471d40);
     border-radius: 50%;
     box-shadow: 0 4px 12px rgba(0,0,0,0.5), inset 0 0 0 2px var(--gold);
@@ -147,14 +144,15 @@
   /* SCENE 3: Storybook Letter Scroll */
   .scene-letter {
     min-height: auto;
-    padding: 80px 20px;
+    padding: 80px 15px;
   }
+  /* ⭐ IMPROVEMENT 1: Made container wider (~15% increase) */
   .storybook-card {
-    width: min(92vw, 680px);
+    width: min(95vw, 780px);
     background: linear-gradient(170deg, rgba(252,248,240,0.97), rgba(245,236,220,0.95));
-    border-radius: 8px;
+    border-radius: 12px;
     box-shadow: 0 25px 70px rgba(0,0,0,0.7), 0 0 0 1px rgba(230,197,117,0.4);
-    padding: clamp(25px, 6vw, 55px);
+    padding: clamp(25px, 6vw, 65px);
     color: var(--ink);
     text-align: left;
     backdrop-filter: blur(10px);
@@ -162,85 +160,105 @@
   .letter-date {
     text-align: right;
     font-family: 'Cinzel', serif;
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 2px;
     color: var(--purple-main);
-    margin-bottom: 25px;
+    margin-bottom: 30px;
   }
+
+  /* ⭐ IMPROVEMENT 2: Individual Paragraph Fades */
   .letter-paragraph {
-    font-size: clamp(1.02rem, 3.8vw, 1.15rem);
-    line-height: 1.75;
+    font-size: clamp(1.05rem, 3.8vw, 1.2rem);
+    line-height: 1.8;
     color: var(--ink-soft);
-    margin-bottom: 22px;
+    margin-bottom: 24px;
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: translateY(25px);
+    transition: opacity 0.9s cubic-bezier(0.25, 1, 0.5, 1), transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
   }
   .letter-paragraph.visible {
     opacity: 1;
     transform: translateY(0);
   }
   
-  /* Section Dividers */
   .divider {
     text-align: center;
-    font-size: 20px;
+    font-size: 22px;
     color: var(--purple-main);
-    margin: 35px 0;
-    opacity: 0.7;
+    margin: 40px 0;
+    opacity: 0.75;
   }
 
-  /* Mood Shift Glow Section */
   .truth-highlight {
     font-family: 'Lora', serif;
     font-style: italic;
     font-size: clamp(1.15rem, 4vw, 1.35rem);
     color: var(--ink);
-    border-left: 3px solid var(--purple-main);
-    padding-left: 18px;
-    margin: 30px 0;
+    border-left: 3px solid var(--gold);
+    padding-left: 20px;
+    margin: 35px 0;
   }
 
-  /* Scripture Card */
+  /* ⭐ IMPROVEMENT 3: Soft Glowing Scripture Box */
   .scripture-card {
-    background: linear-gradient(135deg, rgba(42, 22, 54, 0.9), rgba(20, 11, 30, 0.95));
+    background: linear-gradient(135deg, rgba(42, 22, 54, 0.95), rgba(20, 11, 30, 0.98));
     border: 1px solid var(--gold);
-    border-radius: 10px;
-    padding: 30px;
-    margin: 40px 0 20px 0;
+    border-radius: 12px;
+    padding: 35px 30px;
+    margin: 45px 0 25px 0;
     color: var(--parchment);
-    box-shadow: 0 0 30px rgba(230, 197, 117, 0.15);
+    box-shadow: 0 0 35px rgba(230, 197, 117, 0.25), inset 0 0 15px rgba(230, 197, 117, 0.1);
+    animation: pulse-glow 4s infinite alternate ease-in-out;
+  }
+  @keyframes pulse-glow {
+    0% { box-shadow: 0 0 25px rgba(230, 197, 117, 0.2); }
+    100% { box-shadow: 0 0 45px rgba(230, 197, 117, 0.4); }
   }
   .scripture-ref {
     font-family: 'Cinzel', serif;
-    font-size: 13px;
+    font-size: 14px;
     letter-spacing: 2px;
     color: var(--gold);
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    text-shadow: 0 0 8px rgba(230, 197, 117, 0.5);
   }
   .scripture-text {
     font-style: italic;
-    font-size: 1.05rem;
-    line-height: 1.65;
+    font-size: 1.1rem;
+    line-height: 1.7;
     color: var(--purple-light);
   }
 
   .signature {
-    margin-top: 40px;
+    margin-top: 45px;
     text-align: right;
     font-family: 'Lora', serif;
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     color: var(--ink);
   }
 
-  /* Outro Screen */
+  /* ⭐ IMPROVEMENT 4: Final Cinematic Outro */
   .outro-screen {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     opacity: 0;
-    transition: opacity 1.5s ease;
+    transition: opacity 2s ease;
+    padding: 20px;
+  }
+  .outro-content {
+    background: rgba(15, 8, 24, 0.85);
+    border: 1px solid rgba(230, 197, 117, 0.3);
+    padding: 40px 30px;
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
   }
   .outro-title {
     font-family: 'Cinzel', serif;
-    font-size: clamp(1.6rem, 5vw, 2.5rem);
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
     color: var(--gold);
     margin-bottom: 15px;
   }
@@ -251,7 +269,7 @@
 
   <canvas id="ambient-canvas"></canvas>
 
-  <button class="audio-btn" id="audioToggle">🎵 Play Sound</button>
+  <button class="audio-btn" id="audioToggle">🎵 Play Ambient Piano</button>
 
   <audio id="bg-music" loop preload="auto">
     <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=soft-piano-113884.mp3" type="audio/mpeg">
@@ -260,7 +278,7 @@
   <section class="scene-intro" id="scene1">
     <h1 class="intro-title">For Faith</h1>
     <p class="intro-sub">A Bloom of a Birthday Story</p>
-    <div class="scroll-prompt">Scroll down to open 🌸</div>
+    <div class="scroll-prompt">Scroll down to unseal 🌸</div>
   </section>
 
   <section class="scene-envelope" id="scene2">
@@ -327,7 +345,7 @@
         <p class="scripture-text">"And I am convinced and sure of this very thing, that He Who began a good work in you will continue until the day of Jesus Christ [right up to the time of His return], developing that good work and perfecting and bringing it to full completion in you."</p>
       </div>
 
-      <p class="letter-paragraph" style="font-size: 1.15rem; color: var(--purple-main); margin-top: 30px;">Thank you for being you 💕🌟🫶🏽!</p>
+      <p class="letter-paragraph" style="font-size: 1.2rem; color: var(--purple-main); margin-top: 30px;">Thank you for being you 💕🌟🫶🏽!</p>
       
       <div class="signature letter-paragraph">
         With love,<br>
@@ -337,8 +355,12 @@
   </section>
 
   <section class="outro-screen" id="scene4">
-    <h2 class="outro-title">Happy 17th Birthday, Faith</h2>
-    <p style="color: var(--purple-light); font-style: italic; font-size: 1.2rem;">May God continue writing your beautiful story. 🌸</p>
+    <div class="outro-content">
+      <div style="font-size: 30px; margin-bottom: 10px;">🌸</div>
+      <h2 class="outro-title">Happy Birthday, Faith</h2>
+      <p style="color: var(--purple-light); font-style: italic; font-size: 1.25rem; margin-bottom: 20px;">Thank you for being you.</p>
+      <p style="color: var(--gold); font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 2px;">PHILIPPIANS 1:6</p>
+    </div>
   </section>
 
 <script>
@@ -353,7 +375,7 @@
     height = canvas.height = window.innerHeight;
   });
 
-  const petals = Array.from({ length: 35 }, () => ({
+  const petals = Array.from({ length: 40 }, () => ({
     x: Math.random() * width,
     y: Math.random() * height,
     size: 4 + Math.random() * 6,
@@ -395,10 +417,14 @@
     if (!isPlaying) {
       bgMusic.play();
       audioBtn.textContent = '⏸ Pause Music';
+      audioBtn.style.background = '#8c5cb8';
+      audioBtn.style.color = '#fff';
       isPlaying = true;
     } else {
       bgMusic.pause();
-      audioBtn.textContent = '🎵 Play Sound';
+      audioBtn.textContent = '🎵 Play Ambient Piano';
+      audioBtn.style.background = 'rgba(30, 15, 45, 0.75)';
+      audioBtn.style.color = 'var(--gold)';
       isPlaying = false;
     }
   });
@@ -414,7 +440,7 @@
     }
   });
 
-  /* 4. ScrollTrigger Line-by-Line Reveal */
+  /* 4. ScrollTrigger Paragraph Fades */
   gsap.registerPlugin(ScrollTrigger);
 
   const paragraphs = document.querySelectorAll('.letter-paragraph');
@@ -435,19 +461,17 @@
     start: 'top 60%',
     onEnter: () => {
       document.body.style.backgroundColor = '#2a1636';
-      document.getElementById('ambient-canvas').style.filter = 'sepia(40%) saturate(140%)';
     },
     onLeaveBack: () => {
       document.body.style.backgroundColor = '#140b1e';
-      document.getElementById('ambient-canvas').style.filter = 'none';
     }
   });
 
-  /* Outro Reveal */
+  /* Outro Screen Fade-In */
   const outro = document.getElementById('scene4');
   ScrollTrigger.create({
     trigger: outro,
-    start: 'top 70%',
+    start: 'top 60%',
     onEnter: () => outro.style.opacity = '1'
   });
 </script>
