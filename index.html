@@ -49,7 +49,7 @@
     position: fixed;
     top: 20px; right: 20px;
     z-index: 100;
-    background: rgba(30, 15, 45, 0.75);
+    background: rgba(30, 15, 45, 0.85);
     border: 1px solid var(--gold);
     color: var(--gold);
     padding: 10px 18px;
@@ -77,6 +77,14 @@
   }
 
   /* SCENE 1: Garden Intro */
+  .intro-invitation {
+    font-style: italic;
+    font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+    color: var(--purple-light);
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    opacity: 0.85;
+  }
   .intro-title {
     font-family: 'Cinzel', serif;
     font-size: clamp(1.6rem, 5vw, 2.5rem);
@@ -146,7 +154,6 @@
     min-height: auto;
     padding: 80px 15px;
   }
-  /* ⭐ IMPROVEMENT 1: Made container wider (~15% increase) */
   .storybook-card {
     width: min(95vw, 780px);
     background: linear-gradient(170deg, rgba(252,248,240,0.97), rgba(245,236,220,0.95));
@@ -166,18 +173,19 @@
     margin-bottom: 30px;
   }
 
-  /* ⭐ IMPROVEMENT 2: Individual Paragraph Fades */
+  /* ⭐ FOCUS READING MODE: Dimmer inactive, bright active */
   .letter-paragraph {
     font-size: clamp(1.05rem, 3.8vw, 1.2rem);
-    line-height: 1.8;
+    line-height: 1.85;
     color: var(--ink-soft);
     margin-bottom: 24px;
-    opacity: 0;
-    transform: translateY(25px);
-    transition: opacity 0.9s cubic-bezier(0.25, 1, 0.5, 1), transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+    opacity: 0.35;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease, color 0.6s ease;
   }
-  .letter-paragraph.visible {
+  .letter-paragraph.active-reading {
     opacity: 1;
+    color: #1a0f24;
     transform: translateY(0);
   }
   
@@ -193,13 +201,12 @@
     font-family: 'Lora', serif;
     font-style: italic;
     font-size: clamp(1.15rem, 4vw, 1.35rem);
-    color: var(--ink);
     border-left: 3px solid var(--gold);
     padding-left: 20px;
     margin: 35px 0;
   }
 
-  /* ⭐ IMPROVEMENT 3: Soft Glowing Scripture Box */
+  /* ⭐ ANIMATED GOLD FLASH SCRIPTURE CARD */
   .scripture-card {
     background: linear-gradient(135deg, rgba(42, 22, 54, 0.95), rgba(20, 11, 30, 0.98));
     border: 1px solid var(--gold);
@@ -207,12 +214,12 @@
     padding: 35px 30px;
     margin: 45px 0 25px 0;
     color: var(--parchment);
-    box-shadow: 0 0 35px rgba(230, 197, 117, 0.25), inset 0 0 15px rgba(230, 197, 117, 0.1);
-    animation: pulse-glow 4s infinite alternate ease-in-out;
+    box-shadow: 0 0 25px rgba(230, 197, 117, 0.2);
+    transition: box-shadow 1s ease, transform 1s ease;
   }
-  @keyframes pulse-glow {
-    0% { box-shadow: 0 0 25px rgba(230, 197, 117, 0.2); }
-    100% { box-shadow: 0 0 45px rgba(230, 197, 117, 0.4); }
+  .scripture-card.glow-flash {
+    box-shadow: 0 0 60px rgba(230, 197, 117, 0.6), inset 0 0 20px rgba(230, 197, 117, 0.3);
+    transform: scale(1.02);
   }
   .scripture-ref {
     font-family: 'Cinzel', serif;
@@ -237,7 +244,7 @@
     color: var(--ink);
   }
 
-  /* ⭐ IMPROVEMENT 4: Final Cinematic Outro */
+  /* ⭐ FINAL AMBIENT OUTRO SCREEN */
   .outro-screen {
     min-height: 100vh;
     display: flex;
@@ -249,12 +256,12 @@
     padding: 20px;
   }
   .outro-content {
-    background: rgba(15, 8, 24, 0.85);
-    border: 1px solid rgba(230, 197, 117, 0.3);
-    padding: 40px 30px;
-    border-radius: 16px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    background: rgba(15, 8, 24, 0.88);
+    border: 1px solid rgba(230, 197, 117, 0.35);
+    padding: 45px 35px;
+    border-radius: 18px;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 0 60px rgba(0,0,0,0.85);
   }
   .outro-title {
     font-family: 'Cinzel', serif;
@@ -276,6 +283,7 @@
   </audio>
 
   <section class="scene-intro" id="scene1">
+    <p class="intro-invitation">"Take your time. Every word was written with gratitude."</p>
     <h1 class="intro-title">For Faith</h1>
     <p class="intro-sub">A Bloom of a Birthday Story</p>
     <div class="scroll-prompt">Scroll down to unseal 🌸</div>
@@ -340,7 +348,7 @@
       
       <p class="letter-paragraph">Happy 17th birthday, Faith Chovu Kimeru Ssaru. May this new chapter be filled with deeper intimacy with Christ, unexplainable peace, joyful surprises and countless reminders that the God who has been faithful to you will continue to be faithful until the very end.</p>
 
-      <div class="scripture-card letter-paragraph">
+      <div class="scripture-card letter-paragraph" id="scriptureBox">
         <p class="scripture-ref">Philippians 1:6 (AMPC)</p>
         <p class="scripture-text">"And I am convinced and sure of this very thing, that He Who began a good work in you will continue until the day of Jesus Christ [right up to the time of His return], developing that good work and perfecting and bringing it to full completion in you."</p>
       </div>
@@ -356,9 +364,9 @@
 
   <section class="outro-screen" id="scene4">
     <div class="outro-content">
-      <div style="font-size: 30px; margin-bottom: 10px;">🌸</div>
-      <h2 class="outro-title">Happy Birthday, Faith</h2>
-      <p style="color: var(--purple-light); font-style: italic; font-size: 1.25rem; margin-bottom: 20px;">Thank you for being you.</p>
+      <div style="font-size: 32px; margin-bottom: 12px;">🌸</div>
+      <h2 class="outro-title">Happy 17th Birthday, Faith</h2>
+      <p style="color: var(--purple-light); font-style: italic; font-size: 1.25rem; margin-bottom: 20px;">"Thank you for being you."</p>
       <p style="color: var(--gold); font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 2px;">PHILIPPIANS 1:6</p>
     </div>
   </section>
@@ -375,7 +383,7 @@
     height = canvas.height = window.innerHeight;
   });
 
-  const petals = Array.from({ length: 40 }, () => ({
+  const petals = Array.from({ length: 42 }, () => ({
     x: Math.random() * width,
     y: Math.random() * height,
     size: 4 + Math.random() * 6,
@@ -423,7 +431,7 @@
     } else {
       bgMusic.pause();
       audioBtn.textContent = '🎵 Play Ambient Piano';
-      audioBtn.style.background = 'rgba(30, 15, 45, 0.75)';
+      audioBtn.style.background = 'rgba(30, 15, 45, 0.85)';
       audioBtn.style.color = 'var(--gold)';
       isPlaying = false;
     }
@@ -440,18 +448,31 @@
     }
   });
 
-  /* 4. ScrollTrigger Paragraph Fades */
+  /* 4. ScrollTrigger Focus Reading Mode */
   gsap.registerPlugin(ScrollTrigger);
 
   const paragraphs = document.querySelectorAll('.letter-paragraph');
   paragraphs.forEach(p => {
-    gsap.to(p, {
-      scrollTrigger: {
-        trigger: p,
-        start: 'top 85%',
-        onEnter: () => p.classList.add('visible')
-      }
+    ScrollTrigger.create({
+      trigger: p,
+      start: 'top 75%',
+      end: 'bottom 25%',
+      onEnter: () => p.classList.add('active-reading'),
+      onEnterBack: () => p.classList.add('active-reading'),
+      onLeave: () => p.classList.remove('active-reading'),
+      onLeaveBack: () => p.classList.remove('active-reading')
     });
+  });
+
+  /* Scripture Animated Gold Flash */
+  const scriptureBox = document.getElementById('scriptureBox');
+  ScrollTrigger.create({
+    trigger: scriptureBox,
+    start: 'top 70%',
+    onEnter: () => {
+      scriptureBox.classList.add('glow-flash');
+      setTimeout(() => scriptureBox.classList.remove('glow-flash'), 1800);
+    }
   });
 
   /* Mood Shift at "The truth is..." */
