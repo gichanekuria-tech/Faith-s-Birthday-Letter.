@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>For Faith — A Bloom of a Letter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500;1,600&family=Lora:ital,wght@0,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-1:#efe4f6;
+    --bg-2:#3a2258;
+    --violet-deep:#4b2e63;
+    --orchid:#9b5de5;
+    --blush:#d8b4e2;
+    --plum:#2d1b3d;
+    --cream:#fbf6ef;
+    --ink:#3a2a45;
+    --ink-soft:#5a4a68;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    min-height:100vh;
+    background: radial-gradient(ellipse 90% 60% at 50% 0%, rgba(216,180,226,.35), transparent 55%),
+                linear-gradient(180deg, var(--bg-1) 0%, #cbb3dd 35%, var(--violet-deep) 78%, var(--bg-2) 100%);
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+    font-family:'Cormorant Garamond', serif;
+  }
+  .stage{ position:relative; width:100%; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px 0; }
+  .caption-top{
+    position:absolute; top:clamp(18px,5vh,36px); left:0; right:0; text-align:center;
+    color:#fff; letter-spacing:3px; text-transform:uppercase; font-size:12px; opacity:.8;
+    text-shadow:0 1px 4px rgba(0,0,0,.25);
+  }
+  .scene{ position:relative; width:min(90vw,380px); height:min(66vh,520px); perspective:1200px; display:flex; align-items:center; justify-content:center; }
+  .ambient{ position:absolute; inset:-15% -10% -30% -10%; pointer-events:none; overflow:visible; z-index:0; }
+  .petal{
+    position:absolute; top:-8%;
+    width:10px; height:16px;
+    background:radial-gradient(ellipse at 30% 30%, var(--blush), var(--orchid) 90%);
+    border-radius:60% 60% 60% 0;
+    opacity:0;
+    animation:petalFall linear infinite;
+  }
+  @keyframes petalFall{
+    0%{ transform:translateY(0) rotate(0deg); opacity:0; }
+    10%{ opacity:.85; }
+    90%{ opacity:.5; }
+    100%{ transform:translateY(600px) rotate(220deg); opacity:0; }
+  }
+
+  /* ENVELOPE */
+  .envelope-wrap{
+    position:absolute; z-index:2;
+    transition: opacity .9s ease, transform .9s ease;
+    animation: sway 5s ease-in-out infinite;
+  }
+  .scene.rise .envelope-wrap{ opacity:.12; transform:scale(.9) translateY(10px); animation:none; }
+  @keyframes sway{ 0%,100%{ transform:rotate(-1deg); } 50%{ transform:rotate(1deg); } }
+
+  .envelope{ position:relative; width:min(58vw,268px); aspect-ratio:3/2; transform-style:preserve-3d; }
+  .env-body{
+    position:absolute; inset:0; border-radius:5px;
+    background:linear-gradient(155deg, var(--cream) 0%, #efe1f2 100%);
+    box-shadow:0 30px 70px rgba(45,27,61,.5), 0 0 0 1px rgba(155,93,229,.3);
+  }
+  .env-body::after{ content:""; position:absolute; inset:8px; border:1px solid rgba(155,93,229,.3); border-radius:3px; }
+  .env-flap{
+    position:absolute; top:0; left:0; width:100%; height:64%;
+    clip-path: polygon(0% 0%, 100% 0%, 82% 58%, 50% 100%, 18% 58%);
+    background:linear-gradient(160deg, #efe1f2 0%, #ddc2e4 100%);
+    transform-origin: top center;
+    transform: rotateX(0deg);
+    backface-visibility:hidden;
+    transition: transform 1.05s cubic-bezier(.65,0,.35,1);
+    box-shadow: 0 2px 10px rgba(45,27,61,.2);
+  }
+  .scene.open .env-flap{ transform: rotateX(-172deg); }
+
+  .bloom-seal{
+    position:absolute; left:50%; top:42%; transform:translate(-50%,-50%);
+    width:56px; height:56px; z-index:5;
+  }
+  .petal-arm{
+    position:absolute; left:50%; top:50%;
+    width:14px; height:20px;
+    margin-left:-7px; margin-top:-10px;
+    background:radial-gradient(ellipse at 35% 30%, var(--blush), var(--orchid) 85%);
+    border-radius:60% 60% 60% 0%;
+    box-shadow: inset 0 0 4px rgba(45,27,61,.3);
+    transform-origin:center 26px;
+    transition: transform .6s cubic-bezier(.3,.7,.3,1.4), opacity .5s ease;
+  }
+  .petal-arm:nth-child(1){ transform:rotate(0deg) translateY(-6px); }
+  .petal-arm:nth-child(2){ transform:rotate(72deg) translateY(-6px); }
+  .petal-arm:nth-child(3){ transform:rotate(144deg) translateY(-6px); }
+  .petal-arm:nth-child(4){ transform:rotate(216deg) translateY(-6px); }
+  .petal-arm:nth-child(5){ transform:rotate(288deg) translateY(-6px); }
+  .bloom-center{
+    position:absolute; left:50%; top:50%; width:14px; height:14px; margin:-7px 0 0 -7px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #fff4fb, var(--violet-deep) 90%);
+    box-shadow:0 2px 6px rgba(45,27,61,.4);
+    z-index:2;
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .scene.crack .petal-arm{ animation: petalWiggle .5s ease; }
+  @keyframes petalWiggle{
+    0%,100%{ }
+    50%{ filter:brightness(1.15); }
+  }
+  .scene.open .petal-arm:nth-child(1){ transform:rotate(0deg) translateY(-34px) scale(.6); opacity:0; }
+  .scene.open .petal-arm:nth-child(2){ transform:rotate(72deg) translateY(-34px) scale(.6); opacity:0; }
+  .scene.open .petal-arm:nth-child(3){ transform:rotate(144deg) translateY(-34px) scale(.6); opacity:0; }
+  .scene.open .petal-arm:nth-child(4){ transform:rotate(216deg) translateY(-34px) scale(.6); opacity:0; }
+  .scene.open .petal-arm:nth-child(5){ transform:rotate(288deg) translateY(-34px) scale(.6); opacity:0; }
+  .scene.open .bloom-center{ opacity:0; transform:scale(.4); }
+
+  /* LETTER */
+  .letter-wrap{
+    position:absolute; z-index:3; width:min(84vw,340px);
+    opacity:0; transform: translateY(30px) scaleY(.08); transform-origin: top center;
+    transition: opacity 1s ease, transform 1.05s cubic-bezier(.2,.7,.3,1);
+  }
+  .scene.rise .letter-wrap{ opacity:1; transform: translateY(-6px) scaleY(1); }
+  .letter{
+    position:relative;
+    background:linear-gradient(170deg,#fffaf3,#f6ecf7);
+    border-radius:6px;
+    box-shadow:0 30px 80px rgba(45,27,61,.5), 0 0 0 1px rgba(155,93,229,.28);
+    padding:26px 22px 22px 26px;
+  }
+  .letter::before{
+    content:"❧";
+    position:absolute; right:14px; top:10px;
+    color:rgba(155,93,229,.28);
+    font-size:20px;
+  }
+  .letter-scroll{ max-height:56vh; overflow-y:auto; padding-right:6px; }
+  .letter-scroll::-webkit-scrollbar{ width:5px; }
+  .letter-scroll::-webkit-scrollbar-thumb{ background:rgba(155,93,229,.45); border-radius:3px; }
+  .letter-scroll::-webkit-scrollbar-track{ background:transparent; }
+
+  .dateline{ font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--orchid); margin:0 0 14px; }
+  .opening{ margin:0 0 18px; }
+  .ol{
+    display:inline; font-family:'Lora', serif; font-style:italic; font-weight:600;
+    font-size:clamp(1.05rem,4.2vw,1.3rem); line-height:1.55; color:var(--violet-deep);
+    opacity:0; transform:translateY(6px);
+    transition: opacity .8s ease, transform .8s ease;
+  }
+  .letter.reveal .l1{ transition-delay:.15s; opacity:1; transform:none; }
+  .letter.reveal .l2{ transition-delay:.75s; opacity:1; transform:none; }
+
+  .body-text{ opacity:0; transition: opacity 1.3s ease; transition-delay: 1.4s; }
+  .letter.reveal .body-text{ opacity:1; }
+  .body-text p{ font-size:clamp(.96rem,3.6vw,1.08rem); line-height:1.68; color:var(--ink-soft); margin:0 0 1em; }
+  .verse-ref{ font-size:.85rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--orchid); margin-bottom:.3em !important; }
+  .verse{ margin:0 0 1.1em; padding-left:14px; border-left:2px solid rgba(155,93,229,.5); font-style:italic; color:var(--ink-soft); font-size:.96rem; }
+  .closing{ font-size:1.05rem !important; }
+  .sign{ margin-top:1.2em; }
+  .sig-name{ font-family:'Lora', serif; font-style:italic; color:var(--violet-deep); font-size:1.15rem; }
+
+  .replay-btn{
+    position:absolute; bottom:clamp(16px,4vh,30px); left:50%; transform:translateX(-50%);
+    background:rgba(45,27,61,.5); color:#f4e9fb; border:1px solid rgba(216,180,226,.6);
+    padding:8px 18px; border-radius:999px; font-family:'Cormorant Garamond', serif;
+    font-size:13px; letter-spacing:1.5px; text-transform:uppercase; cursor:pointer;
+    backdrop-filter: blur(4px); z-index:10;
+  }
+  .replay-btn:active{ transform:translateX(-50%) scale(.96); }
+
+  @media (prefers-reduced-motion: reduce){
+    .envelope-wrap{ animation:none; }
+    .env-flap, .petal-arm, .bloom-center, .letter-wrap, .ol, .body-text{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="caption-top">for Faith · a bloom on her day</div>
+  <div class="scene" id="scene">
+    <div class="ambient" id="ambient"></div>
+
+    <div class="envelope-wrap">
+      <div class="envelope">
+        <div class="env-body"></div>
+        <div class="env-flap"></div>
+        <div class="bloom-seal">
+          <div class="petal-arm"></div>
+          <div class="petal-arm"></div>
+          <div class="petal-arm"></div>
+          <div class="petal-arm"></div>
+          <div class="petal-arm"></div>
+          <div class="bloom-center"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="letter-wrap">
+      <div class="letter" id="letter">
+        <div class="letter-scroll">
+          <p class="dateline">31st July, 2026</p>
+          <p class="opening">
+            <span class="ol l1">Today, I celebrate someone who has been more than a blessing to me. </span>
+            <span class="ol l2">Someone that God sent personally and specifically to me.</span>
+          </p>
+          <div class="body-text">
+            <p>It all started on December 9th when I was scrolling and then I saw your repost, I've told you this like 20 times now 😂. I can't even tell how I followed you but all I remember is that I was frustrated. Out of the frustration, I texted you and you warmly accepted the message request, you saw a guy in need and I was in need I can't lie.</p>
+            <p>I wasn't aware that God was aligning something great, something we never saw coming, something we never thought we needed, our friendship.</p>
+            <p>I thank God for what He has been doing and still is doing in your life. He's taught you things through the Holy Spirit and many times, you were the one used to speak to me without even probably realising it.</p>
+            <p>I'm thankful to Him for keeping you long enough so that our paths would meet and here we are now.</p>
+            <p>I thank God because you have been a very, very big blessing to me, it's beyond words. Your kindness, your heart for God, your humor and even our random conversations have made this season of life a lot brighter.</p>
+            <p>Meeting you has been one of the best things that have happened to me because you have exposed my strengths and my weaknesses all at the same time just by being you. I thought that I had an issue with being consistent but you proved to me that I can actually be consistent through our daily talks, like the conversations and calls, I was an avoidant but you taught me how to show up everyday and I can't lie, I've really improved. You have taught me how to be more confident with myself by speaking what's in my mind, I don't feel forced when I'm sharing something with you, actually, I volunteer the information myself without even you asking, so that really shows how I've improved, the fact that I can be myself around you is just amazing and impressive at the same time. Thank you for bringing a certain version out of me that people rarely do. At the same time, you've helped me kill the ego that I had 😭 well, improved, trying day by day to kill it. You've taught me how to actually be humble and when to tell that my ego is the one that's talking or influencing my actions in any way.</p>
+            <p>Thank you for creating a space where I can tell you what's wrong without fear of being judged or misunderstood. The impact you've had in my life has been outstandingly noticeable. I can literally talk to you about anything and you always know what to tell me and how to deliver it.</p>
+            <p>I have never felt judged, matter of fact, I saw someone who's actually genuine to see me grow, someone who's actually genuinely happy for me when I accomplish something, someone who pushes me to become a great person and someone who's seeing a bright future in me, you don't get that with everyone.</p>
+            <p>Thank you for encouraging me that no matter how things are right now and how tough they may seem, God still thinks highly of me, and you provide scripture just to back up your points. Thank you because your obedience has also encouraged me and it has helped me obey even when it seems so hard.</p>
+            <p>I have learnt a lot through you and I know sometimes you might ask, what does Franklin get when he looks at me or when he listens to me?</p>
+            <p>The truth is,</p>
+            <p>I see someone who is so intentional. Someone who doesn't just say they love God but genuinely desires to obey Him, even when obedience costs something. I see someone whose life reminds me that Christ can actually be the center of a person's decisions and not just their words.</p>
+            <p>When I listen to you, I don't just hear advice. I hear conviction, wisdom and a heart that genuinely wants to see me become the man God created me to be. You have a way of making me think deeper, challenge my motives, and look beyond what I feel in the moment, and after thought, I look at the bigger picture.</p>
+            <p>When I look at you, I see hope. Hope that people can still be kind without expecting anything in return. Hope that friendships can be pure, honest and centered on helping each other grow closer to God. Hope that character still exists in a generation where it's becoming increasingly rare, and I thank God for that, tbh.</p>
+            <p>I also see someone who reflects parts of Christ's heart through simple things. Through your patience, your encouragement, your willingness to listen and your consistency, you've shown me what loving people well can look like. It has challenged me to become that kind of person for others, and maybe what stands out most is this: you make me want to become a better man. Not because you expect perfection from me, but because your life quietly reminds me that God is still working on people, and that He hasn't finished working on me either.</p>
+            <p>As you turn a year older (17 😛),</p>
+            <p>My prayer is that you continue becoming the woman of God that He had in mind long before you ever took your first breath. I pray that your love for Him only grows deeper, that your obedience remains unwavering and that your heart never loses the tenderness that has blessed so many people, me included. I also want you to know that you are deeply loved and deeply appreciated, not because of what you do for me but because of who you are, naturally. Thank you for seeing me, even in the little things. Thank you for noticing the smallest changes, the small victories, the random details I casually mention, and somehow remembering them better than I do. Those things may seem insignificant to others but they have made me feel valued in ways I cannot fully explain. I hope you know that just as you've been there for me, I'll always want to be there for you too. Whether the days are filled with joy and laughter, or whether they're uncertain, confusing, and maybe when trusting God feels harder than usual, you'll always have someone willing to listen. You don't have to earn that. You don't have to have the perfect words, just say it the way you wanna say it. If all you need is someone to hear you, I'll definitely and happily be that person.</p>
+            <p>Thank you for trusting God with our friendship. Thank you for choosing obedience even when it isn't the easiest path. It has encouraged me more than you'll probably ever know. Looking back, I can honestly say that meeting you was one of God's kindnesses to me in a season when I needed it most, and we all turned out to be in somewhat a similar season. So today, I don't just celebrate the day you were born. I celebrate the person you've become and the person you're becoming. I'm excited to watch God continue writing your story, and I have no doubt that the years ahead hold things far greater than either of us can imagine.</p>
+            <p>Happy 17th birthday, Faith Chovu Kimeru Ssaru (I hope I got the spellings right 😭). May this new chapter be filled with deeper intimacy with Christ, unexplainable peace, joyful surprises and countless reminders that the God who has been faithful to you will continue to be faithful until the very end.</p>
+            <p class="verse-ref">Philippians 1:6, AMPC</p>
+            <p class="verse">"And I am convinced and sure of this very thing, that He Who began a good work in you will continue until the day of Jesus Christ [right up to the time of His return], developing that good work and perfecting and bringing it to full completion in you."</p>
+            <p class="closing">Thank you for being you 💕🌟🫶🏽!</p>
+            <p class="sign">With love,<br><span class="sig-name">Franklin Gichane</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="replay-btn" id="replayBtn">↻ Replay</button>
+</div>
+
+<script>
+  const ambient = document.getElementById('ambient');
+  function spawnPetals(n){
+    ambient.innerHTML = '';
+    for(let i=0;i<n;i++){
+      const p = document.createElement('div');
+      p.className = 'petal';
+      p.style.left = (Math.random()*100)+'%';
+      p.style.transform = 'rotate('+Math.floor(Math.random()*360)+'deg)';
+      p.style.animationDuration = (6+Math.random()*6)+'s';
+      p.style.animationDelay = (Math.random()*7)+'s';
+      ambient.appendChild(p);
+    }
+  }
+
+  const scene = document.getElementById('scene');
+  const letter = document.getElementById('letter');
+  let timers = [];
+
+  function playSequence(){
+    timers.forEach(t=>clearTimeout(t));
+    scene.classList.remove('crack','open','rise');
+    letter.classList.remove('reveal');
+    void scene.offsetWidth;
+    timers.push(setTimeout(()=>scene.classList.add('crack'), 900));
+    timers.push(setTimeout(()=>scene.classList.add('open'), 2100));
+    timers.push(setTimeout(()=>scene.classList.add('rise'), 3050));
+    timers.push(setTimeout(()=>letter.classList.add('reveal'), 3450));
+  }
+
+  window.addEventListener('load', ()=>{
+    spawnPetals(16);
+    playSequence();
+  });
+  document.getElementById('replayBtn').addEventListener('click', ()=>{
+    spawnPetals(16);
+    playSequence();
+  });
+</script>
+</body>
+</html>
